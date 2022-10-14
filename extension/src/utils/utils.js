@@ -25,7 +25,7 @@ export const getAddress = async ({ mnemonic: mnemonic }) => {
 }
 
 // https://gist.github.com/webmaster128/8444d42a7eceeda2544c8a59fbd7e1d9
-export const setToken = async({})
+// export const setToken = async({})
 
 /*
 export const getAddres = async () => {
