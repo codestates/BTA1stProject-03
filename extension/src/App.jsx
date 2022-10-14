@@ -7,6 +7,7 @@ const router = createHashRouter([
     {
         path: '/',
         element: <Root />,
+        loader: null,
     },
 ])
 

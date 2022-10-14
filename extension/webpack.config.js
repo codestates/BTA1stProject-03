@@ -3,7 +3,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     entry: {
-        'js/app': ['./src/App.js'],
+        'js/app': ['./src/App.jsx'],
     },
     resolve: {
         fallback: {
