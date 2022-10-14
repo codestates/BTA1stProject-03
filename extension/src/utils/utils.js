@@ -1,9 +1,13 @@
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 
+/*
+ * 모듈화 
+ */
 const mnemonic_length = 18
 const prefixAddress = 'osmo'
 
 // person without wallet
+// 처음부터 생성하는 것
 export const creaetWallet = async () => {
     const wallet = await DirectSecp256k1HdWallet.generate()
     return wallet
@@ -11,6 +15,7 @@ export const creaetWallet = async () => {
 
 // @arge mnemonic
 // @return osmosis Address
+// 니모닉과 페스워드
 export const getAddress = async ({ mnemonic: mnemonic }) => {
     const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
         prefix: prefixAddress,
@@ -19,7 +24,8 @@ export const getAddress = async ({ mnemonic: mnemonic }) => {
     return address
 }
 
-export const setToken = async ({})
+// https://gist.github.com/webmaster128/8444d42a7eceeda2544c8a59fbd7e1d9
+export const setToken = async({})
 
 /*
 export const getAddres = async () => {
