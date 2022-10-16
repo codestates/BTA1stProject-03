@@ -12,11 +12,7 @@ const utils = {
         return chains.find(({chain_name}) => chain_name === chainName);
     },
 
-    getAddress: async (mnemonic,chain) => {  // 니모닉 코드와 체인정보를 사용해서 해당 지갑의 주소를 리턴
-        const signer = await getOfflineSignerProto({
-            mnemonic,
-            chain
-        });
+    getAddress: async (signer) => {  // 니모닉 코드와 체인정보를 사용해서 해당 지갑의 주소를 리턴
         let myAccount = await signer.getAccounts()
         return myAccount[0].address
     },
@@ -28,6 +24,12 @@ const utils = {
     },
     getFee:  (amount) => {  // low , medium, high 에 해당하는 값의 수수료를 리턴
         return FEES.osmosis.swapExactAmountIn(amount)
+    },
+    getSigner:  async (mnemonic, chain) => {  // low , medium, high 에 해당하는 값의 수수료를 리턴
+        return await getOfflineSignerProto({
+            mnemonic,
+            chain
+        })
     },
     // send: async (fromAddress,toAddress,amount,mnemonic) => {  // 입력한 양의 코인을 송금한 후 해당 트랜잭션 정보 리턴
     //     return null
