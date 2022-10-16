@@ -12,8 +12,7 @@ const utils = {
         return chains.find(({chain_name}) => chain_name === chainName);
     },
 
-    getAddress: async (mnemonic) => {  // 니모닉 코드를 사용해서 해당 지갑의 주소를 리턴
-        const chain = chains.find(({chain_name}) => chain_name === 'osmosis');
+    getAddress: async (mnemonic,chain) => {  // 니모닉 코드와 체인정보를 사용해서 해당 지갑의 주소를 리턴
         const signer = await getOfflineSignerProto({
             mnemonic,
             chain
