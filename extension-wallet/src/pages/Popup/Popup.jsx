@@ -87,6 +87,7 @@ const Popup = () => {
         const balance = await client.cosmos.bank.v1beta1.allBalances({
             address: 'osmo1fhfndhdr5l74f9zjep35akrsj3fd6s462sv2ef',
         })
+        chrome.storage.local.set(['test'], 'test')
     }
     test()
 

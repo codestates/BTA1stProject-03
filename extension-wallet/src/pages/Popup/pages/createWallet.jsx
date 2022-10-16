@@ -59,6 +59,8 @@ export default function CreateWallet() {
             const mne = wallet.mnemonic
             setMnemonic(mne)
         }
+        //const test = chrome.storage.local.get("test")
+        //console.log(test)
         createMnemo()
     }, [])
 
