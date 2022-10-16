@@ -17,6 +17,12 @@ const utils = {
         let myAddress = myAccount[0].address
         return myAddress
     },
+    getBalance: async (address) => {  // 지갑의 주소를 사용해서 해당 지갑의 잔고를 리턴
+        const {createRPCQueryClient} = osmosis.ClientFactory;
+        const client = await createRPCQueryClient({rpcEndpoint: endPointUrl});
+        return await client.cosmos.bank.v1beta1
+            .allBalances({address: address})
+    }
 
 
 }
