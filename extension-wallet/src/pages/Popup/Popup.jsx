@@ -78,10 +78,17 @@ const LogoItem = styled.div`
         7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
 `
 
+/*
+ * 1. 출력 형식
+ * 2. staking
+ * 3. ibc
+ * 4.
+ */
+
 const Popup = () => {
     const navi = useNavigate()
-    let mnemonic =
-        'heart stairs unique gown risk analyst lyrics setup wall erupt basket apple'
+    /*     let mnemonic =
+        'heart stairs unique gown risk analyst lyrics setup wall erupt basket apple' */
     const { createRPCQueryClient } = osmosis.ClientFactory
     const test = async () => {
         const client = await createRPCQueryClient({
@@ -95,18 +102,17 @@ const Popup = () => {
     //test()
     const mainNet = 'https://osmosis-mainnet-rpc.allthatnode.com:26657'
 
-    useEffect(() => {
-        const getBal = async () => {
-            console.log('Test')
-            let chain = wallet.getChain('osmosis')
+    const getBal = async () => {
+        console.log('Test')
 
-            let signer = await wallet.getSigner(mnemonic, chain)
-            let address = await wallet.getAddress(signer)
-            let balance = await wallet.getBalance(address, mainNet)
-            console.log(balance)
-        }
-        getBal()
-    }, [])
+        let mnemonic = await wallet.getMnemonic()
+        let chain = wallet.getChain('osmosis')
+        let signer = await wallet.getSigner(mnemonic, chain)
+        let address = await wallet.getAddress(signer)
+        let balance = await wallet.getBalance(address, mainNet)
+        console.log(balance)
+    }
+    getBal()
 
     return (
         <ThemeProvider theme={utils.theme}>
@@ -132,7 +138,7 @@ const Popup = () => {
                         Import wallet
                     </StyledButton>
                     <StyledButton
-                        onClick={() => console.log('helo')}
+                        onClick={() => getBal()}
                         color="secondary"
                         variant="contained"
                         sx={{ fontWeight: 600 }}

@@ -2,6 +2,7 @@ import {getOfflineSignerProto} from 'cosmjs-utils'
 import {chains} from 'chain-registry'
 import {FEES, osmosis,cosmos} from 'osmojs'
 import {SigningStargateClient} from '@cosmjs/stargate'
+import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 
 // const config = require('../../config/config.json');
 //  const endPointUrl = config.endPoint.mainNet;
@@ -10,6 +11,13 @@ import {SigningStargateClient} from '@cosmjs/stargate'
 export const mainNet = "https://osmosis-mainnet-rpc.allthatnode.com:26657"
 
 export const utils = {
+    getMnemonic: async () => {
+        // 18 단어로 생성
+        const wallet = await DirectSecp256k1HdWallet.generate(18)
+        // (월렛 필드)니모닉 코드 가져오기
+        const mnemonic = wallet.mnemonic
+        return mnemonic
+    },
     getChain: (chainName) => {  // 체인 이름을 토대로 체인 오브젝트 리턴
         return chains.find(({chain_name}) => chain_name === chainName);
     },
@@ -60,9 +68,9 @@ export const utils = {
         };
         return  await signingClient.signAndBroadcast(fromAddress, [msg], fee);
     },
+    
 
 
 
 }
-
 
