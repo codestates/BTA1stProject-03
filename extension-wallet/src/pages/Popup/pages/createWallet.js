@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import * as utils from '../utils/theme'
+import { clipboardCopy } from '../utils/copy'
 import styled from 'styled-components'
 import { Alert, TextField, ThemeProvider } from '@mui/material'
 import { StyledButton } from '../components/ui/btn'
@@ -70,8 +71,20 @@ export default function CreateWallet() {
                 </WrapperAlert>
 
                 <WrapperMnemonic>
-                    <MnemonicHeader>mnemonic word
-                        <StyledButton color="secondary" variant="outlined" sx={{width:'3%', marginLeft: '4%', padding:'1px'}} >copy</StyledButton>
+                    <MnemonicHeader>
+                        mnemonic word
+                        <StyledButton
+                            color="secondary"
+                            variant="outlined"
+                            sx={{
+                                width: '3%',
+                                marginLeft: '4%',
+                                padding: '1px',
+                            }}
+                            onClick={() => clipboardCopy({ text: mnemonic })}
+                        >
+                            copy
+                        </StyledButton>
                     </MnemonicHeader>
                     <div style={{ fontSize: '13px' }}>{mnemonic}</div>
                 </WrapperMnemonic>
@@ -86,7 +99,9 @@ export default function CreateWallet() {
                         color="secondary"
                     ></TextField>
                 </WrapperAccount>
-            <StyledButton color="secondary" variant="contained" >next</StyledButton>
+                <StyledButton color="secondary" variant="contained">
+                    next
+                </StyledButton>
             </WrapperPopup>
         </ThemeProvider>
     )
