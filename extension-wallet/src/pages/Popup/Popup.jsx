@@ -48,7 +48,7 @@ const SelectWrapper = styled.div`
     align-items: center;
 ` */
 const StyledButton = styled(Button)`
-    backgroundcolor: #6eb5aa;
+    backgroundcolor: ${utils.bgColor};
     font-weight: bold;
     width: 75%;
 `
@@ -87,6 +87,7 @@ const Popup = () => {
                         Create wallet
                     </StyledButton>
                     <StyledButton
+        onClick={() => navi("/import")}
                         color="secondary"
                         variant="contained"
                         disableElevation
