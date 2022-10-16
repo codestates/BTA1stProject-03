@@ -4,8 +4,10 @@ import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import * as utils from '../utils/theme'
 import { clipboardCopy } from '../utils/copy'
 import styled from 'styled-components'
-import { Alert, TextField, ThemeProvider } from '@mui/material'
+import { Alert, Button, TextField, ThemeProvider } from '@mui/material'
 import { StyledButton } from '../components/ui/btn'
+import { useNavigate } from 'react-router-dom'
+import Header from '../components/header'
 
 const WrapperPopup = styled.div`
     width: 100%;
@@ -18,7 +20,7 @@ const WrapperPopup = styled.div`
 `
 
 const WrapperMnemonic = styled.div`
-    width: 70%;
+    width: 80%;
     height: 30%;
     display: flex;
     flex-direction: column;
@@ -32,15 +34,16 @@ const MnemonicHeader = styled.div`
 `
 
 const WrapperAccount = styled.div`
-    width: 70%;
-    height: 30%;
+    width: 80%;
+    height: 20%;
 `
 const AccountHeader = styled.div`
     color: ${utils.fontColor};
     font-size: 16px;
 `
 const WrapperAlert = styled(Alert)`
-    width: 70%;
+    width: 80%;
+    padding: 5% 0 0 0;
 `
 const AlertUi = styled.div`
     font-size: 13px;
@@ -48,6 +51,7 @@ const AlertUi = styled.div`
 
 export default function CreateWallet() {
     const [mnemonic, setMnemonic] = useState()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const createMnemo = async () => {
@@ -61,6 +65,9 @@ export default function CreateWallet() {
     return (
         <ThemeProvider theme={utils.theme}>
             <WrapperPopup>
+                <div style={{ height: '15%', width: '100%' }}>
+                    <Header>W</Header>
+                </div>
                 <WrapperAlert severity="error">
                     <div>Keep the mnemonic words safe</div>
                     <AlertUi>
@@ -69,7 +76,6 @@ export default function CreateWallet() {
                     </AlertUi>
                     <AlertUi>2. Store in a safe place to reuse reuse</AlertUi>
                 </WrapperAlert>
-
                 <WrapperMnemonic>
                     <MnemonicHeader>
                         mnemonic word
@@ -102,6 +108,16 @@ export default function CreateWallet() {
                 <StyledButton color="secondary" variant="contained">
                     next
                 </StyledButton>
+                <div style={{ width: '80%' }}>
+                    <Button
+                        variant="text"
+                        color="secondary"
+                        style={{ textAlign: 'left' }}
+                        onClick={() => navigate(-1)}
+                    >
+                        {'<-previos'}
+                    </Button>
+                </div>
             </WrapperPopup>
         </ThemeProvider>
     )
