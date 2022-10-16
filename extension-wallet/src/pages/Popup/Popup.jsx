@@ -49,7 +49,7 @@ const SelectWrapper = styled.div`
 ` */
 const StyledButton = styled(Button)`
     backgroundcolor: ${utils.bgColor};
-    font-weight: bold;
+    font-weight: 600;
     width: 75%;
 `
 /* const ColorButton = styled(Button)(({ theme }) => ({
@@ -60,6 +60,23 @@ const StyledButton = styled(Button)`
   },
 }));
  */
+
+const LogoItem = styled.div`
+    background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
+    width: 35%;
+    height: 45%;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 38px;
+    margin: 0 0 10% 0;
+    border-radius: 10px;
+    font-weight: 600;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+        7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+`
+
 const Popup = () => {
     const navi = useNavigate()
     const { createRPCQueryClient } = osmosis.ClientFactory
@@ -70,27 +87,30 @@ const Popup = () => {
         const balance = await client.cosmos.bank.v1beta1.allBalances({
             address: 'osmo1fhfndhdr5l74f9zjep35akrsj3fd6s462sv2ef',
         })
+        chrome.storage.local.set(['test'], 'test')
     }
     test()
 
     return (
         <ThemeProvider theme={utils.theme}>
             <Wrapper className="App">
-                <LogoWrapper>logo</LogoWrapper>
+                <LogoWrapper>
+                    <LogoItem>N</LogoItem>
+                </LogoWrapper>
                 <SelectWrapper>
                     <StyledButton
                         onClick={() => navi('/create')}
                         color="secondary"
                         variant="contained"
-                        disableElevation
+                        sx={{ fontWeight: 600 }}
                     >
                         Create wallet
                     </StyledButton>
                     <StyledButton
-        onClick={() => navi("/import")}
+                        onClick={() => navi('/import')}
                         color="secondary"
                         variant="contained"
-                        disableElevation
+                        sx={{ fontWeight: 600 }}
                     >
                         Import wallet
                     </StyledButton>
