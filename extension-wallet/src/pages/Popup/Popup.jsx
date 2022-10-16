@@ -84,13 +84,15 @@ const LogoItem = styled.div`
  * 3. ibc
  * 4.
  */
+/*
+* 니모닉 코드, 비밀번호 
+AES256 암호화, 
+*/
 
 const Popup = () => {
     const navi = useNavigate()
-    /*     let mnemonic =
-        'heart stairs unique gown risk analyst lyrics setup wall erupt basket apple' */
-    const { createRPCQueryClient } = osmosis.ClientFactory
-    const test = async () => {
+    //const { createRPCQueryClient } = osmosis.ClientFactory
+    /*     const test = async () => {
         const client = await createRPCQueryClient({
             rpcEndpoint: 'https://osmosis-mainnet-rpc.allthatnode.com:26657/',
         })
@@ -98,11 +100,11 @@ const Popup = () => {
             address: 'osmo1fhfndhdr5l74f9zjep35akrsj3fd6s462sv2ef',
         })
         //chrome.storage.local.set(['test'], 'test')
-    }
+    } */
     //test()
-    const mainNet = 'https://osmosis-mainnet-rpc.allthatnode.com:26657'
+    //const mainNet = 'https://osmosis-mainnet-rpc.allthatnode.com:26657'
 
-    const getBal = async () => {
+    /*     const getBal = async () => {
         console.log('Test')
 
         let mnemonic = await wallet.getMnemonic()
@@ -110,10 +112,27 @@ const Popup = () => {
         let signer = await wallet.getSigner(mnemonic, chain)
         let address = await wallet.getAddress(signer)
         let balance = await wallet.getBalance(address, mainNet)
-        console.log(balance)
-    }
-    getBal()
+        console.log(balance) */
 
+    /*     chrome.storage.local.set({val: '1234'}, function() {
+        console.log('set')
+    })
+
+    chrome.storage.local.get(['val'], function(item) {
+        console.log(item)
+    }) */
+
+    /*         chrome.storage.local.get(["test"], function(items) {
+            console.log(items)
+        }) */
+    //}
+    const test = true
+    if (test) {
+        let mnemonic =
+            'heart stairs unique gown risk analyst lyrics setup wall erupt basket apple'
+        chrome.storage.local.set({ mnemonic: mnemonic })
+        chrome.storage.local.set({ name: 'test!!!' })
+    }
     return (
         <ThemeProvider theme={utils.theme}>
             <Wrapper className="App">
@@ -138,7 +157,7 @@ const Popup = () => {
                         Import wallet
                     </StyledButton>
                     <StyledButton
-                        onClick={() => getBal()}
+                        onClick={() => navi('/user')}
                         color="secondary"
                         variant="contained"
                         sx={{ fontWeight: 600 }}

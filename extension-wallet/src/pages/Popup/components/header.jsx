@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components';
+import styled from 'styled-components'
 import * as theme from '../utils/theme'
 
 const LogoItem = styled.div`
@@ -19,29 +19,26 @@ const LogoItem = styled.div`
 `
 
 const LogoWrapper = styled.div`
-padding: 0% 0 0 5%;
-height: 100%;
-wdiht: 100%;
-display: flex;
-align-items: center;
-justify-content: left;
-background-color: ${theme.bgColor} 
+    padding: 0% 0 0 5%;
+    height: 100%;
+    wdiht: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    background-color: ${theme.bgColor};
 `
 const LogoText = styled.div`
-font-size: 18px;
-margin: 0 0 0 3%;
-display: flex;
-align-items: center;
-color: black;
-
+    font-size: 18px;
+    margin: 0 0 0 3%;
+    display: flex;
+    align-items: center;
+    color: black;
 `
 export default function Header() {
     return (
         <LogoWrapper>
             <LogoItem>N</LogoItem>
-            <LogoText>
-                NUGUNA
-            </LogoText>
+            <LogoText>NUGUNA</LogoText>
         </LogoWrapper>
     )
 }
