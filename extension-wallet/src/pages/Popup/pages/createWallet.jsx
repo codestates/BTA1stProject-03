@@ -50,7 +50,9 @@ const AlertUi = styled.div`
 `
 
 export default function CreateWallet() {
-    const [mnemonic, setMnemonic] = useState()
+    const [mnemonic, setMnemonic] = useState('')
+    const [name, setName] = useState('')
+    const [error, setError] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -59,10 +61,26 @@ export default function CreateWallet() {
             const mne = wallet.mnemonic
             setMnemonic(mne)
         }
-        //const test = chrome.storage.local.get("test")
-        //console.log(test)
         createMnemo()
     }, [])
+    const next = () => {
+        if (!mnemonic) {
+            return
+        }
+
+        if (!name) {
+            setError(true)
+            return
+        }
+        chrome.storage.local.set({ mnemonic: mnemonic })
+        chrome.storage.local.set({ name: name })
+        navigate('/user')
+    }
+
+    const accountHandler = (e) => {
+        setName(e.target.value)
+        setError(false)
+    }
 
     return (
         <ThemeProvider theme={utils.theme}>
@@ -99,15 +117,22 @@ export default function CreateWallet() {
                 <WrapperAccount>
                     <AccountHeader>account</AccountHeader>
                     <TextField
+                        error={error}
                         sx={{ width: '100%' }}
                         id="standard-password-input"
                         label="Account Name"
                         defaultValue=""
                         variant="standard"
                         color="secondary"
+                        onChange={accountHandler}
+                        helperText={error ? 'input account name' : null}
                     ></TextField>
                 </WrapperAccount>
-                <StyledButton color="secondary" variant="contained">
+                <StyledButton
+                    onClick={() => next()}
+                    color="secondary"
+                    variant="contained"
+                >
                     next
                 </StyledButton>
                 <div style={{ width: '80%' }}>
