@@ -2,8 +2,8 @@ import {getOfflineSignerProto} from 'cosmjs-utils'
 import {chains} from 'chain-registry'
 import {FEES, osmosis} from 'osmojs'
 
-const config = require('../../config/config.json');
-const endPointUrl = config.endPoint.mainNet;
+// const config = require('../../config/config.json');
+// const endPointUrl = config.endPoint.mainNet;
 
 
 
@@ -20,9 +20,9 @@ const utils = {
         let myAccount = await signer.getAccounts()
         return myAccount[0].address
     },
-    getBalance: async (address) => {  // 지갑의 주소를 사용해서 해당 지갑의 잔고를 리턴
+    getBalance: async (address,endPoint) => {  // 지갑의 주소와 엔드포인트를 사용해서 해당 지갑의 잔고를 리턴
         const {createRPCQueryClient} = osmosis.ClientFactory;
-        const client = await createRPCQueryClient({rpcEndpoint: endPointUrl});
+        const client = await createRPCQueryClient({rpcEndpoint: endPoint});
         return await client.cosmos.bank.v1beta1
             .allBalances({address: address})
     },
