@@ -1,6 +1,8 @@
 import {
+    Backdrop,
     Button,
     ButtonGroup,
+    CircularProgress,
     InputAdornment,
     TextField,
     ThemeProvider,
@@ -53,13 +55,14 @@ export default function Send() {
         feeAmount: '',
         fee: '',
     })
-    const [error, setError] = useState(true)
+    const [error, setError] = useState(false)
     const [feeSelect, setFeeSelect] = useState('min')
     const [address, setAddress] = useState('')
     const [asset, setAsset] = useState(0)
     const navi = useNavigate()
     const chainName = 'osmosis'
     const chain = wallet.utils.getChain(chainName)
+    const [loading, setLoading] = useState(false)
     const amountHandler = (e) => {
         let amount = e.target.value
         if (!amount) {
@@ -89,21 +92,24 @@ export default function Send() {
             setError(true)
             return
         }
+        setLoading(true)
         const signer = await wallet.utils.getSigner(mnemonic, chain)
         const signClinet = await wallet.utils.getSigningClient(
             'https://osmosis-mainnet-rpc.allthatnode.com:26657',
             signer
         )
         console.log(values, 'Eeee')
-        const test = await wallet.utils.sendOsmosis(
+        const result = await wallet.utils.sendOsmosis(
             address,
             values.resipient,
             values.amount,
             values.fee,
             signClinet
         )
-        console.log(test)
+        console.log(result)
+        setLoading(false)
         setError(false)
+        navi(-1)
     }
 
     useEffect(() => {
@@ -132,6 +138,15 @@ export default function Send() {
     return (
         <ThemeProvider theme={theme.theme}>
             <Wrapper>
+                <Backdrop
+                    sx={{
+                        color: '#fff',
+                        zIndex: (theme) => theme.zIndex.drawer + 1,
+                    }}
+                    open={loading}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
                 <Header>
                     <Button
                         variant="text"

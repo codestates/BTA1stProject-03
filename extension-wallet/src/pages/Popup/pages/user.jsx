@@ -12,6 +12,7 @@ import { TabContext, TabPanel, TabList } from '@mui/lab'
 import Tokens from '../components/Tokens'
 import { useNavigate, useNavigation } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
+import Tx from '../components/tx'
 
 const reset = () => {
     chrome.storage.local.set({ mnemonic: '' }, function () {
@@ -70,21 +71,27 @@ export default function User() {
     const chainName = 'osmosis'
     const navi = useNavigate()
     const navigation = useNavigation()
-    console.log(navigation.state)
+    const [tx, setTx] = useState('')
+
     const handleChange = (event, newValue) => {
         setTabValue(newValue)
     }
     useEffect(() => {
         const getAddr = async (mne) => {
+            const endPoint = 'https://osmosis-mainnet-rpc.allthatnode.com:26657'
             const chain = wallet.utils.getChain(chainName)
             const signer = await wallet.utils.getSigner(mne, chain)
             const addr = await wallet.utils.getAddress(signer)
-            const ass = await wallet.utils.getBalance(
-                addr,
-                'https://osmosis-mainnet-rpc.allthatnode.com:26657'
+            const ass = await wallet.utils.getBalance(addr, endPoint)
+            const signingClient = await wallet.utils.getSigningClient(
+                endPoint,
+                signer
             )
+            const getTx = await wallet.utils.getTx(addr, signingClient)
             setAddress(addr)
             setAsset(ass)
+            setTx(getTx)
+            console.log(getTx)
             setLoading(false)
         }
         chrome.storage.local.get('mnemonic', function (item) {
@@ -221,8 +228,8 @@ export default function User() {
                             <TabPanel value="1">
                                 <Tokens assets={asset} />
                             </TabPanel>
-                            <TabPanel value="2" color="secondary">
-                                Transaction
+                            <TabPanel value="2" color="secondary" sx={{overflow:'none'}} >
+                                <Tx tx={tx}></Tx>
                             </TabPanel>
                         </TabContext>
                     </Box>

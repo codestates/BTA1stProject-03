@@ -1,14 +1,13 @@
-import {getOfflineSignerProto} from 'cosmjs-utils'
-import {chains} from 'chain-registry'
-import {FEES, osmosis,cosmos} from 'osmojs'
-import {SigningStargateClient} from '@cosmjs/stargate'
+import { getOfflineSignerProto } from 'cosmjs-utils'
+import { chains } from 'chain-registry'
+import { FEES, osmosis, cosmos } from 'osmojs'
+import { SigningStargateClient } from '@cosmjs/stargate'
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 
 // const config = require('../../config/config.json');
 //  const endPointUrl = config.endPoint.mainNet;
 
-
-export const mainNet = "https://osmosis-mainnet-rpc.allthatnode.com:26657"
+export const mainNet = 'https://osmosis-mainnet-rpc.allthatnode.com:26657'
 
 export const utils = {
     getMnemonic: async () => {
@@ -18,61 +17,96 @@ export const utils = {
         const mnemonic = wallet.mnemonic
         return mnemonic
     },
-    getChain: (chainName) => {  // 체인 이름을 토대로 체인 오브젝트 리턴
-        return chains.find(({chain_name}) => chain_name === chainName);
+    getChain: (chainName) => {
+        // 체인 이름을 토대로 체인 오브젝트 리턴
+        return chains.find(({ chain_name }) => chain_name === chainName)
     },
 
-    getAddress: async (signer) => {  // 니모닉 코드와 체인정보를 사용해서 해당 지갑의 주소를 리턴
+    getAddress: async (signer) => {
+        // 니모닉 코드와 체인정보를 사용해서 해당 지갑의 주소를 리턴
         let myAccount = await signer.getAccounts()
         return myAccount[0].address
     },
-    getBalance: async (address,endPoint) => {  // 지갑의 주소와 엔드포인트를 사용해서 해당 지갑의 잔고를 리턴
-        const {createRPCQueryClient} = osmosis.ClientFactory;
-        const client = await createRPCQueryClient({rpcEndpoint: endPoint});
-        return await client.cosmos.bank.v1beta1
-            .allBalances({address: address})
-    },
-    getFee:  (amount) => {  // low , medium, high 에 해당하는 값의 수수료를 리턴
-        return FEES.osmosis.swapExactAmountIn(amount)
-    },
-    getSigner:  async (mnemonic, chain) => {  // 사용자의 mnemonic과 체인을 사용하여 signer 리턴
-        return await getOfflineSignerProto({
-            mnemonic,
-            chain
+    getBalance: async (address, endPoint) => {
+        // 지갑의 주소와 엔드포인트를 사용해서 해당 지갑의 잔고를 리턴
+        const { createRPCQueryClient } = osmosis.ClientFactory
+        const client = await createRPCQueryClient({ rpcEndpoint: endPoint })
+        return await client.cosmos.bank.v1beta1.allBalances({
+            address: address,
         })
     },
-    getSigningClient:async (endPoint, signer) => {  // 사용자의 signer와 endpoint를 사용하여 클라이언트 객체 리턴
-        return  await SigningStargateClient.connectWithSigner(endPoint, signer);
+    getFee: (amount) => {
+        // low , medium, high 에 해당하는 값의 수수료를 리턴
+        return FEES.osmosis.swapExactAmountIn(amount)
     },
-    sendOsmosis: async (fromAddress,toAddress,amount,feeAmount,signingClient) => {  // 입력한 양의 코인을 송금한 후 해당 트랜잭션 정보 리턴
+    getSigner: async (mnemonic, chain) => {
+        // 사용자의 mnemonic과 체인을 사용하여 signer 리턴
+        return await getOfflineSignerProto({
+            mnemonic,
+            chain,
+        })
+    },
+    getSigningClient: async (endPoint, signer) => {
+        // 사용자의 signer와 endpoint를 사용하여 클라이언트 객체 리턴
+        return await SigningStargateClient.connectWithSigner(endPoint, signer)
+    },
+    sendOsmosis: async (
+        fromAddress,
+        toAddress,
+        amount,
+        feeAmount,
+        signingClient
+    ) => {
+        // 입력한 양의 코인을 송금한 후 해당 트랜잭션 정보 리턴
         console.log(feeAmount)
-        const {send} = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
+        const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl
         const msg = send({
             amount: [
                 {
                     denom: 'uosmo',
-                    amount: amount
-                }
+                    amount: amount,
+                },
             ],
             toAddress: toAddress,
-            fromAddress: fromAddress
-        });
+            fromAddress: fromAddress,
+        })
 
         const fee = {
             amount: [
                 {
                     denom: 'uosmo',
-                    amount: feeAmount.amount[0].amount
-                }
+                    amount: feeAmount.amount[0].amount,
+                },
             ],
-            gas: feeAmount.gas
-        };
-        console.log(msg, fee, "check fee msg")
-        return  await signingClient.signAndBroadcast(fromAddress, [msg], fee);
+            gas: feeAmount.gas,
+        }
+        console.log(msg, fee, 'check fee msg')
+        return await signingClient.signAndBroadcast(fromAddress, [msg], fee)
     },
-    
-
-
-
+    getTx: async (address, signingClient) => {
+        // 해당 주소의 송금 및 트랜젝션 정보 리턴
+        const transaction = await signingClient.searchTx({
+            sentFromOrTo: address,
+        })
+        let tx = []
+        for (let i of transaction) {
+            let txData = []
+            if (
+                JSON.parse(i.rawLog)[0].events[3].attributes[0].value ===
+                address
+            ) {
+                txData.push('received')
+                txData.push(
+                    JSON.parse(i.rawLog)[0].events[3].attributes[2].value
+                )
+            } else {
+                txData.push('send')
+                txData.push(
+                    JSON.parse(i.rawLog)[0].events[3].attributes[2].value
+                )
+            }
+            tx.push(txData)
+        }
+        return tx
+    },
 }
-
