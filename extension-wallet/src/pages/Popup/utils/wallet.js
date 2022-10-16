@@ -45,6 +45,7 @@ export const utils = {
         return  await SigningStargateClient.connectWithSigner(endPoint, signer);
     },
     sendOsmosis: async (fromAddress,toAddress,amount,feeAmount,signingClient) => {  // 입력한 양의 코인을 송금한 후 해당 트랜잭션 정보 리턴
+        console.log(feeAmount)
         const {send} = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
         const msg = send({
             amount: [
@@ -61,11 +62,12 @@ export const utils = {
             amount: [
                 {
                     denom: 'uosmo',
-                    amount: feeAmount.amount.amount
+                    amount: feeAmount.amount[0].amount
                 }
             ],
             gas: feeAmount.gas
         };
+        console.log(msg, fee, "check fee msg")
         return  await signingClient.signAndBroadcast(fromAddress, [msg], fee);
     },
     

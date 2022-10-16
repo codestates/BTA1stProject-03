@@ -1,10 +1,8 @@
-import { Button, createTheme, ThemeProvider } from '@mui/material'
-import React, { useEffect } from 'react'
+import { Button, TextField, ThemeProvider } from '@mui/material'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { osmosis } from 'osmojs'
-import * as utils from './utils/theme'
-import { Link, useNavigate } from 'react-router-dom'
-import { utils as wallet } from './utils/wallet'
+import * as utils from '../utils/theme'
+import { useNavigate } from 'react-router-dom'
 //import logo from '../../assets/img/logo.svg';
 //import Greetings from '../../containers/Greetings/Greetings';
 //import './Popup.css'
@@ -89,8 +87,9 @@ const LogoItem = styled.div`
 AES256 암호화, 
 */
 
-const Popup = () => {
+export default function Login() {
     const navi = useNavigate()
+    const [password, setPassword] = useState()
     //const { createRPCQueryClient } = osmosis.ClientFactory
     /*     const test = async () => {
         const client = await createRPCQueryClient({
@@ -126,12 +125,16 @@ const Popup = () => {
             console.log(items)
         }) */
     //}
-    const test = true
+    /*     const test = true
     if (test) {
         let mnemonic =
             'heart stairs unique gown risk analyst lyrics setup wall erupt basket apple'
         chrome.storage.local.set({ mnemonic: mnemonic })
         chrome.storage.local.set({ name: 'test!!!' })
+    } */
+    //인풋값이 바뀔떄마다 수정
+    const passwordHandler = (e) => {
+        setPassword(e.target.value)
     }
     return (
         <ThemeProvider theme={utils.theme}>
@@ -140,42 +143,15 @@ const Popup = () => {
                     <LogoItem>N</LogoItem>
                 </LogoWrapper>
                 <SelectWrapper>
-                    <StyledButton
-                        onClick={() => navi('/create')}
+                    <TextField
+                        label="password"
                         color="secondary"
-                        variant="contained"
-                        sx={{ fontWeight: 600 }}
-                    >
-                        Create wallet
-                    </StyledButton>
-                    <StyledButton
-                        onClick={() => navi('/import')}
-                        color="secondary"
-                        variant="contained"
-                        sx={{ fontWeight: 600 }}
-                    >
-                        Import wallet
-                    </StyledButton>
-                    <StyledButton
-                        onClick={() => navi('/user')}
-                        color="secondary"
-                        variant="contained"
-                        sx={{ fontWeight: 600 }}
-                    >
-                        wallet
-                    </StyledButton>
-                    <StyledButton
-                        onClick={() => navi('/login')}
-                        color="secondary"
-                        variant="contained"
-                        sx={{ fontWeight: 600 }}
+                        onChange={passwordHandler}
                     >
                         Login
-                    </StyledButton>
+                    </TextField>
                 </SelectWrapper>
             </Wrapper>
         </ThemeProvider>
     )
 }
-
-export default Popup

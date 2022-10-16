@@ -9,6 +9,7 @@ import ImportWallet from './pages/importWallet'
 import User from './pages/user'
 import { userLoader } from './loader/user'
 import Send from './pages/send'
+import Login from './pages/login'
 
 // create router
 const router = createHashRouter([
@@ -33,6 +34,10 @@ const router = createHashRouter([
         element: <User />,
         loader: userLoader,
     },
+    {
+        path: '/login',
+        element: <Login/>
+    }
 ])
 
 render(
