@@ -22,7 +22,10 @@ const utils = {
         const client = await createRPCQueryClient({rpcEndpoint: endPointUrl});
         return await client.cosmos.bank.v1beta1
             .allBalances({address: address})
-    }
+    },
+    getFee: async (amount) => {  // low , medium, high 에 해당하는 값의 수수료를 리턴
+        return FEES.osmosis.swapExactAmountIn(amount)
+    },
 
 
 }
