@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { osmosis } from 'osmojs'
 import * as utils from './utils/theme'
 import { Link, useNavigate } from 'react-router-dom'
+import { utils as wallet } from './utils/wallet'
 //import logo from '../../assets/img/logo.svg';
 //import Greetings from '../../containers/Greetings/Greetings';
 //import './Popup.css'
@@ -79,6 +80,8 @@ const LogoItem = styled.div`
 
 const Popup = () => {
     const navi = useNavigate()
+    let mnemonic =
+        'heart stairs unique gown risk analyst lyrics setup wall erupt basket apple'
     const { createRPCQueryClient } = osmosis.ClientFactory
     const test = async () => {
         const client = await createRPCQueryClient({
@@ -87,9 +90,23 @@ const Popup = () => {
         const balance = await client.cosmos.bank.v1beta1.allBalances({
             address: 'osmo1fhfndhdr5l74f9zjep35akrsj3fd6s462sv2ef',
         })
-        chrome.storage.local.set(['test'], 'test')
+        //chrome.storage.local.set(['test'], 'test')
     }
-    test()
+    //test()
+    const mainNet = 'https://osmosis-mainnet-rpc.allthatnode.com:26657'
+
+    useEffect(() => {
+        const getBal = async () => {
+            console.log('Test')
+            let chain = wallet.getChain('osmosis')
+
+            let signer = await wallet.getSigner(mnemonic, chain)
+            let address = await wallet.getAddress(signer)
+            let balance = await wallet.getBalance(address, mainNet)
+            console.log(balance)
+        }
+        getBal()
+    }, [])
 
     return (
         <ThemeProvider theme={utils.theme}>
@@ -113,6 +130,14 @@ const Popup = () => {
                         sx={{ fontWeight: 600 }}
                     >
                         Import wallet
+                    </StyledButton>
+                    <StyledButton
+                        onClick={() => console.log('helo')}
+                        color="secondary"
+                        variant="contained"
+                        sx={{ fontWeight: 600 }}
+                    >
+                        wallet
                     </StyledButton>
                 </SelectWrapper>
             </Wrapper>
