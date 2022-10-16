@@ -58,6 +58,22 @@ const utils = {
         };
         return await signingClient.signAndBroadcast(fromAddress, [msg], fee);
     },
+    getTx: async (address,signingClient) => {  // 해당 주소의 송금 및 트랜젝션 정보 리턴
+        const  transaction = await signingClient.searchTx({sentFromOrTo: address})
+        let tx=[]
+        for(let i of transaction){
+            let txData=[]
+            if(JSON.parse(i.rawLog)[0].events[3].attributes[0].value===address){
+                txData.push("received")
+                txData.push(JSON.parse(i.rawLog)[0].events[3].attributes[2].value)
+            }else{
+                txData.push("send")
+                txData.push(JSON.parse(i.rawLog)[0].events[3].attributes[2].value)
+            }
+            tx.push(txData)
+        }
+        return tx;
+    },
 
     aes256Encrypt: async (mnemonic, password) => {  // 사용자의 mnemonic을 패스워드를 사용하여 암호화
         return CryptoJS.AES.encrypt(mnemonic, password).toString();
