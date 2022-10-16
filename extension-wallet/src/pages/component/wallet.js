@@ -1,6 +1,6 @@
 import {getOfflineSignerProto} from 'cosmjs-utils'
 import {chains} from 'chain-registry'
-import {FEES, osmosis} from 'osmojs'
+import {FEES, osmosis,cosmos} from 'osmojs'
 import {SigningStargateClient} from '@cosmjs/stargate'
 // const config = require('../../config/config.json');
 // const endPointUrl = config.endPoint.mainNet;
@@ -34,9 +34,30 @@ const utils = {
     getSigningClient:async (endPoint, signer) => {  // 사용자의 signer와 endpoint를 사용하여 클라이언트 객체 리턴
         return  await SigningStargateClient.connectWithSigner(endPoint, signer);
     },
-    // send: async (fromAddress,toAddress,amount,signer) => {  // 입력한 양의 코인을 송금한 후 해당 트랜잭션 정보 리턴
-    //     return null
-    // },
+    sendOsmosis: async (fromAddress,toAddress,amount,feeAmount,signingClient) => {  // 입력한 양의 코인을 송금한 후 해당 트랜잭션 정보 리턴
+        const {send} = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
+        const msg = send({
+            amount: [
+                {
+                    denom: 'uosmo',
+                    amount: amount
+                }
+            ],
+            toAddress: toAddress,
+            fromAddress: fromAddress
+        });
+
+        const fee = {
+            amount: [
+                {
+                    denom: 'uosmo',
+                    amount: feeAmount.amount.amount
+                }
+            ],
+            gas: feeAmount.gas
+        };
+        return  await signingClient.signAndBroadcast(fromAddress, [msg], fee);
+    },
 
 
 
