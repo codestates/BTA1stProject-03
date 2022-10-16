@@ -87,8 +87,8 @@ const LogoItem = styled.div`
 
 const Popup = () => {
     const navi = useNavigate()
-    let mnemonic =
-        'heart stairs unique gown risk analyst lyrics setup wall erupt basket apple'
+    /*     let mnemonic =
+        'heart stairs unique gown risk analyst lyrics setup wall erupt basket apple' */
     const { createRPCQueryClient } = osmosis.ClientFactory
     const test = async () => {
         const client = await createRPCQueryClient({
@@ -104,8 +104,9 @@ const Popup = () => {
 
     const getBal = async () => {
         console.log('Test')
-        let chain = wallet.getChain('osmosis')
 
+        let mnemonic = await wallet.getMnemonic()
+        let chain = wallet.getChain('osmosis')
         let signer = await wallet.getSigner(mnemonic, chain)
         let address = await wallet.getAddress(signer)
         let balance = await wallet.getBalance(address, mainNet)
