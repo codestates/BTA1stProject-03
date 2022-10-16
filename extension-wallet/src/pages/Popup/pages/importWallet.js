@@ -1,4 +1,4 @@
-
+import React from 'react'
 // mnemonic seed (18 word)
 // account name
 export default function ImportWallet() {

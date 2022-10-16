@@ -5,6 +5,7 @@ import Popup from './Popup';
 import './index.css';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
 import CreateWallet from "./pages/createWallet"
+import ImportWallet from "./pages/importWallet"
 
 
 // create router
@@ -16,6 +17,10 @@ const router = createHashRouter([
     {
         path: "/create",
         element: <CreateWallet/>
+    },
+    {
+        path: "/import",
+        element: <ImportWallet/>
     }
 ])
 
