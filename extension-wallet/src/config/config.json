@@ -1,6 +1,0 @@
-{
-  "endPoint": {
-      "mainNet": "https://osmosis-mainnet-rpc.allthatnode.com:26657",
-      "testNet": "https://osmosis-testnet-rpc.allthatnode.com:26657"
-  }
-}
