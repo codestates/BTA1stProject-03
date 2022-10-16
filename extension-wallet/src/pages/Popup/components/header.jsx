@@ -1,6 +1,9 @@
+import { Button } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
 import * as theme from '../utils/theme'
+import RefreshIcon from '@mui/icons-material/Refresh'
+import { useNavigate } from 'react-router-dom'
 
 const LogoItem = styled.div`
     background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
@@ -34,11 +37,15 @@ const LogoText = styled.div`
     align-items: center;
     color: black;
 `
-export default function Header() {
+export default function Header({ refresh }) {
+    const navi = useNavigate()
     return (
         <LogoWrapper>
             <LogoItem>N</LogoItem>
             <LogoText>NUGUNA</LogoText>
+            {refresh ? (
+                <Button variant="text" onClick={() => navi(0)} sx={{marginLeft: '80px' }}endIcon={<RefreshIcon />}/>
+            ) : null}
         </LogoWrapper>
     )
 }

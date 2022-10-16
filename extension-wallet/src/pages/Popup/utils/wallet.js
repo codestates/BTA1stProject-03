@@ -109,4 +109,15 @@ export const utils = {
         }
         return tx
     },
+    aes256Encrypt: async (mnemonic, password) => {  // 사용자의 mnemonic을 패스워드를 사용하여 암호화
+        return CryptoJS.AES.encrypt(mnemonic, password).toString();
+    },
+
+    aes256Decrypt: async (encrypted, password) => {  // 크롬 스토리지에 저장된 암호화된 mnemonic을 패스워드를 사용하여 복호화
+        return CryptoJS.AES.decrypt(encrypted, password).toString(CryptoJS.enc.Utf8);
+    },
+
+    md5Encrypt: async (password) => {  // 입력 패스워드가 올바른 패스워드인지 판단하기 위해 해시화 후 비교하기위한 md5 암호화
+        return CryptoJS.MD5(password);
+    },
 }

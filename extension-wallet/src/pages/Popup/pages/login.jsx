@@ -2,7 +2,7 @@ import { Button, TextField, ThemeProvider } from '@mui/material'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import * as utils from '../utils/theme'
-import { useNavigate } from 'react-router-dom'
+import { Form, useNavigate } from 'react-router-dom'
 //import logo from '../../assets/img/logo.svg';
 //import Greetings from '../../containers/Greetings/Greetings';
 //import './Popup.css'
@@ -143,13 +143,15 @@ export default function Login() {
                     <LogoItem>N</LogoItem>
                 </LogoWrapper>
                 <SelectWrapper>
-                    <TextField
-                        label="password"
-                        color="secondary"
-                        onChange={passwordHandler}
-                    >
-                        Login
-                    </TextField>
+                    <Form method="get">
+                        <TextField
+                            label="password"
+                            color="secondary"
+                            onChange={passwordHandler}
+                        >
+                            Login
+                        </TextField>
+                    </Form>
                 </SelectWrapper>
             </Wrapper>
         </ThemeProvider>

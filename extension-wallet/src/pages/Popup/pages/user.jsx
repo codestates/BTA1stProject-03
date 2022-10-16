@@ -116,7 +116,7 @@ export default function User() {
                     <CircularProgress color="inherit" />
                 </Backdrop>
                 <WrapHeader>
-                    <Header />
+                    <Header refresh={true}/>
                 </WrapHeader>
                 <WrapperBody>
                     <AccountHeader>

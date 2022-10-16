@@ -1,10 +1,9 @@
-import { Button, createTheme, ThemeProvider } from '@mui/material'
-import React, { useEffect } from 'react'
+import { Button, ThemeProvider } from '@mui/material'
+import React from 'react'
 import styled from 'styled-components'
-import { osmosis } from 'osmojs'
+//import { osmosis } from 'osmojs'
 import * as utils from './utils/theme'
-import { Link, useNavigate } from 'react-router-dom'
-import { utils as wallet } from './utils/wallet'
+import {  useNavigate } from 'react-router-dom'
 //import logo from '../../assets/img/logo.svg';
 //import Greetings from '../../containers/Greetings/Greetings';
 //import './Popup.css'
