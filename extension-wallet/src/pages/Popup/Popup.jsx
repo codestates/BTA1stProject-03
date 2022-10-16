@@ -1,5 +1,5 @@
 import { Button, createTheme, ThemeProvider } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { osmosis } from 'osmojs'
 import * as utils from './utils/theme'
