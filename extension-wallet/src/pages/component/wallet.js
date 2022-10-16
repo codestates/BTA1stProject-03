@@ -25,7 +25,7 @@ const utils = {
     getFee:  (amount) => {  // low , medium, high 에 해당하는 값의 수수료를 리턴
         return FEES.osmosis.swapExactAmountIn(amount)
     },
-    getSigner:  async (mnemonic, chain) => {  // low , medium, high 에 해당하는 값의 수수료를 리턴
+    getSigner:  async (mnemonic, chain) => {  // 사용자의 mnemonic과 체인을 사용하여 signer 리턴
         return await getOfflineSignerProto({
             mnemonic,
             chain
