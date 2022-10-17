@@ -74,6 +74,13 @@ const utils = {
         }
         return tx;
     },
+    //test
+    getTimestamp:async (endPoint,txhash)=>{
+        const {createRPCQueryClient} = osmosis.ClientFactory;
+        const client2 = await createRPCQueryClient({rpcEndpoint: endPoint});
+        const resp = await client2.cosmos.tx.v1beta1.getTx({hash: txhash})
+        return resp.txResponse.timestamp
+    },
 
     aes256Encrypt: async (mnemonic, password) => {  // 사용자의 mnemonic을 패스워드를 사용하여 암호화
         return CryptoJS.AES.encrypt(mnemonic, password).toString();
