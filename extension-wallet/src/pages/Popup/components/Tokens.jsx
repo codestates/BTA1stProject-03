@@ -17,22 +17,21 @@ const Wrapper = styled.div`
 export default function Tokens({ assets }) {
     return (
         <Wrapper>
-            {assets
-                ? assets?.balances?.map((v, i) => {
-                      if (v.denom !== 'uosmo') {
-                          console.log(v)
-                          return (
-                              <List
-                                  sx={{
-                                      width: '100%',
-                                      maxWidth: 360,
-                                      maxHeight: 70,
-                                      bgcolor: 'background.paper',
-                                      overflow: 'auto',
-                                  }}
-                                  key={i}
-                              >
-                                  <ListItem disablePadding>
+            <List
+                sx={{
+                    width: '100%',
+                    maxWidth: 360,
+                    maxHeight: 70,
+                    bgcolor: 'background.paper',
+                    overflow: 'auto',
+                }}
+            >
+                {assets
+                    ? assets?.balances?.map((v, i) => {
+                          if (v.denom !== 'uosmo') {
+                              console.log(v)
+                              return (
+                                  <ListItem disablePadding key={i}>
                                       <ListItemButton>
                                           <ListItemAvatar>
                                               <Avatar>
@@ -48,11 +47,11 @@ export default function Tokens({ assets }) {
                                           />
                                       </ListItemButton>
                                   </ListItem>
-                              </List>
-                          )
-                      }
-                  })
-                : null}
+                              )
+                          }
+                      })
+                    : null}
+            </List>
         </Wrapper>
     )
 }

@@ -8,6 +8,8 @@ import { Alert, Button, TextField, ThemeProvider } from '@mui/material'
 import { StyledButton } from '../components/ui/btn'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/header'
+import * as wallet from '../utils/wallet'
+import { useDispatch } from 'react-redux'
 
 const WrapperPopup = styled.div`
     width: 100%;
@@ -21,7 +23,7 @@ const WrapperPopup = styled.div`
 
 const WrapperMnemonic = styled.div`
     width: 80%;
-    height: 30%;
+    height: 20%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -30,7 +32,7 @@ const WrapperMnemonic = styled.div`
 const MnemonicHeader = styled.div`
     color: ${utils.fontColor};
     font-size: 20px;
-    padding: 0 0 5% 0;
+    padding: 0 0 3% 0;
 `
 
 const WrapperAccount = styled.div`
@@ -53,7 +55,9 @@ export default function CreateWallet() {
     const [mnemonic, setMnemonic] = useState('')
     const [name, setName] = useState('')
     const [error, setError] = useState(false)
+    const [pw, setPw] = useState('')
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const createMnemo = async () => {
@@ -67,14 +71,23 @@ export default function CreateWallet() {
         if (!mnemonic) {
             return
         }
+        console.log(name, pw)
 
-        if (!name) {
+        if (!name || !pw) {
             setError(true)
             return
         }
-        chrome.storage.local.set({ mnemonic: mnemonic })
+        let auth = wallet.utils.aes256Encrypt(mnemonic, pw)
+        let encryptPassword = wallet.utils.md5Encrypt(pw)
         chrome.storage.local.set({ name: name })
+        chrome.storage.local.set({ encryptPassword: encryptPassword })
+        chrome.storage.local.set({ auth: auth })
+        chrome.storage.local.set({mnemonic: mnemonic})
         navigate('/user')
+    }
+    const pwHandler = (e) => {
+        console.log(e.target.value)
+        setPw(e.target.value)
     }
 
     const accountHandler = (e) => {
@@ -115,7 +128,6 @@ export default function CreateWallet() {
                     <div style={{ fontSize: '13px' }}>{mnemonic}</div>
                 </WrapperMnemonic>
                 <WrapperAccount>
-                    <AccountHeader>account</AccountHeader>
                     <TextField
                         error={error}
                         sx={{ width: '100%' }}
@@ -125,6 +137,18 @@ export default function CreateWallet() {
                         variant="standard"
                         color="secondary"
                         onChange={accountHandler}
+                        helperText={error ? 'input account name' : null}
+                    ></TextField>
+                    <TextField
+                        error={error}
+                        type="password"
+                        sx={{ width: '100%' }}
+                        id="standard-password-input"
+                        label="Password"
+                        defaultValue=""
+                        variant="standard"
+                        color="secondary"
+                        onChange={pwHandler}
                         helperText={error ? 'input account name' : null}
                     ></TextField>
                 </WrapperAccount>
@@ -140,7 +164,7 @@ export default function CreateWallet() {
                         variant="text"
                         color="secondary"
                         style={{ textAlign: 'left' }}
-                        onClick={() => navigate(-1)}
+        onClick={() => navigate(-1)}
                     >
                         {'<-previos'}
                     </Button>

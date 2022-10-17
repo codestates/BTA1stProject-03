@@ -50,7 +50,6 @@ export default function ImportWallet() {
             <Wrapper>
                 <Header />
                 <WrapperInput>
-                    <InputHeader>Input mnemonic</InputHeader>
                     <WrapperBox>
                         <ThreeInput iter={[1, 2, 3]} />
                         <ThreeInput iter={[4, 5, 6]} />
@@ -68,7 +67,7 @@ export default function ImportWallet() {
                             <AccountCircle
                                 sx={{
                                     color: 'action.active',
-                                    mr: 1,
+                                    mr: 0.6,
                                     my: 0.5,
                                 }}
                             />
@@ -79,6 +78,28 @@ export default function ImportWallet() {
                                 label="Account name"
                             ></TextField>
                         </Box>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'flex-end',
+                                marginTop: '20px',
+                            }}
+                        >
+                            <AccountCircle
+                                sx={{
+                                    color: 'action.active',
+                                    mr: 0.6,
+                                    my: 0.5,
+                                }}
+                            />
+
+                            <TextField
+                                variant="outlined"
+                                color="secondary"
+                                label="Password"
+                            ></TextField>
+                        </Box>
+
                         <div
                             style={{
                                 display: 'flex',
