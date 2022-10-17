@@ -3,6 +3,7 @@ import { chains } from 'chain-registry'
 import { FEES, osmosis, cosmos } from 'osmojs'
 import { SigningStargateClient } from '@cosmjs/stargate'
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
+import CryptoJS from "crypto-js";
 
 // const config = require('../../config/config.json');
 //  const endPointUrl = config.endPoint.mainNet;

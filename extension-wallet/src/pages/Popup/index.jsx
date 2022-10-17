@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { render } from 'react-dom'
 
 import Popup from './Popup'
@@ -10,6 +10,8 @@ import User from './pages/user'
 import { userLoader } from './loader/user'
 import Send from './pages/send'
 import Login from './pages/login'
+import { Provider } from 'react-redux'
+import { configureStore } from '@reduxjs/toolkit'
 
 // create router
 const router = createHashRouter([
@@ -36,13 +38,16 @@ const router = createHashRouter([
     },
     {
         path: '/login',
-        element: <Login/>
+        element: <Login />,
     },
-   
 ])
-
+const store = configureStore({
+  reducer: {}
+})
 render(
-    <RouterProvider router={router} />,
+    <Provider store={store}>
+        <RouterProvider router={router} />
+    </Provider>,
     window.document.querySelector('#app-container')
 )
 

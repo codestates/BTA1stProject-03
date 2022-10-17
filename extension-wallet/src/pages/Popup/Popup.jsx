@@ -1,12 +1,18 @@
 import { Button, ThemeProvider } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 //import { osmosis } from 'osmojs'
 import * as utils from './utils/theme'
-import {  useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { createStore } from 'redux'
 //import logo from '../../assets/img/logo.svg';
 //import Greetings from '../../containers/Greetings/Greetings';
 //import './Popup.css'
+function counterReducer(state = { value: '' }, action) {
+    return { mnemonic: state }
+}
+
+let store = createStore(counterReducer)
 
 const Wrapper = styled.div`
     width: 100%;
@@ -125,6 +131,7 @@ const Popup = () => {
             console.log(items)
         }) */
     //}
+
     const test = true
     if (test) {
         let mnemonic =
